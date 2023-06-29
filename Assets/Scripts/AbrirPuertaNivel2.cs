@@ -17,8 +17,10 @@ public class AbrirPuertaNivel2 : MonoBehaviour
     {
         
     }
-    private void OnTriggerEnter(){
-        PressE.SetActive(true);
+    private void OnTriggerEnter(Collider other){
+        if(other.CompareTag("Player")){
+            PressE.SetActive(true);
+        }
         
     }
     private void OnTriggerStay(Collider other)

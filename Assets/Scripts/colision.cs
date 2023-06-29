@@ -94,8 +94,11 @@ public class colision : MonoBehaviour
     public GameObject ObjetoDesactivar;
     public GameObject PressE;
     private void OnTriggerEnter(Collider other){ 
-        PressE.SetActive(true);
-        EntrarMensaje();
+        if(other.CompareTag("Player")){
+            PressE.SetActive(true);
+            EntrarMensaje();
+        }
+        
 
     }
     private void OnTriggerStay(Collider other)
