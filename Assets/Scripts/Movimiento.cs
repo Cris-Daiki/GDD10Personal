@@ -78,7 +78,6 @@ public class Movimiento : MonoBehaviour
         {
             EstoyCayendo();
         }
-
         UpdateCamera();
     }
     //-------------------Data related------------------------------
@@ -235,6 +234,14 @@ public class Movimiento : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        GameObject otherObject = collision.gameObject;
+        if (otherObject.CompareTag("Suelo")){
+            puedoSaltar = true;
+        }
+    }
+
     // Update is called once per frame
     // void FixedUpdate()
 
@@ -303,7 +310,6 @@ public class Movimiento : MonoBehaviour
     public void EstoyCayendo(){
         anim.SetBool("TocarSuelo",false);
         anim.SetBool("Salte",false);
-        puedoSaltar = true;
     }
     public void DejeDeGolpear(){
         EstoyAtacando = false;
