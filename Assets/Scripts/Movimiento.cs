@@ -108,7 +108,7 @@ public class Movimiento : MonoBehaviour
         else hp = hp + item.alter_hp;
         maxhp = maxhp + item.alter_maxhp;
         def = def + item.alter_def;
-        fireDelay = fireDelay - (-item.alter_fireDelay * 5.0f / 100);
+        fireDelay = fireDelay - (item.alter_fireDelay * 5.0f / 100);
         dmg = dmg + item.alter_dmg;
         DebugStat_hp.SetText("HP: "+ _playerdata.hp + "/" + hp);
         DebugStat_maxhp.SetText("MAXHP: "+ _playerdata.maxhp + "/" + maxhp);
@@ -173,7 +173,7 @@ public class Movimiento : MonoBehaviour
     }
     public void ChangeHp(float dmg)
     {
-        hp = hp - (dmg *(1 - (def/100)));
+        hp = hp - (dmg * (1 - (def / 100)));
         DebugStat_hp.SetText("HP: " + _playerdata.hp + "/" + hp);
         if (hp < 0)
         {
@@ -245,23 +245,33 @@ public class Movimiento : MonoBehaviour
         
     // }
     
+    
     IEnumerator AttackDelay()
     {
         while (true)
         {
             if (Input.GetMouseButtonDown(1) || Input.GetMouseButton(1))
             {
-                SpawnBullet();
+                SpawnBullet(true);
                 yield return new WaitForSeconds(fireDelay);
             }
-            yield return null;
+            else if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
+            {
+                SpawnBullet(false);
+                yield return new WaitForSeconds(fireDelay-1);
+            }
+                yield return null;
         }
     }
-    void SpawnBullet()
+    void SpawnBullet(bool aoe)
     {
         Vector3 S_position = bullet_spawner.position;
         Quaternion S_rotation = bullet_spawner.rotation;
         var Spawned_bullet = Instantiate(_bullet.bullet_prefab, S_position, S_rotation);
+        if (aoe)
+        {
+            Spawned_bullet.GetComponent<Bullet>().SetExplosion(true);
+        }
         Physics.IgnoreCollision(Spawned_bullet.transform.GetComponent<SphereCollider>(),transform.GetComponent<CapsuleCollider>());
         /*
         RaycastHit hit;
