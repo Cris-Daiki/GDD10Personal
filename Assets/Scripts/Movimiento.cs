@@ -63,7 +63,7 @@ public class Movimiento : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
-        transform.Translate(x * Time.deltaTime * velocidaddemovimientox, 0, y * Time.deltaTime * VelocidadMovimiento);
+        transform.Translate(x * Time.deltaTime * VelocidadMovimiento, 0, y * Time.deltaTime * VelocidadMovimiento);
         anim.SetFloat("Velx", x);
         anim.SetFloat("Vely", y);
         if (puedoSaltar)
