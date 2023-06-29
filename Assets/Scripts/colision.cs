@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,15 +5,20 @@ using System.Linq;
 
 public class colision : MonoBehaviour
 {
+    bool isEKeyPressed = false;
     internal static int contador;
-    public List<string> miListaJugador;
     bool sonIguales1;
     List<string> randomNames; // Declarar la variable randomNames como campo de la clase
+    
+    GameObject objetoSharedList;
+    SharedList sharedList;
 
     // Start is called before the first frame update
     void Start()
     {
         contador = 1;
+        objetoSharedList = GameObject.Find("ControladorListas");
+        sharedList = objetoSharedList.GetComponent<SharedList>();
         ShuffleNames(); // Llamar al método ShuffleNames() en el Start() para barajar los nombres
         
     }
@@ -43,20 +47,19 @@ public class colision : MonoBehaviour
         }
     }
 
-   
     void Update()
     {
-        foreach (string name in miListaJugador)
+        foreach (string name in sharedList.miListaJugador)
         {
             Debug.Log("ListaJUGADOR: " + name);
         }
 
         bool sonIguales = true;
-        if (randomNames.Count == miListaJugador.Count)
+        if (randomNames.Count == sharedList.miListaJugador.Count)
         {
             for (int i = 0; i < randomNames.Count; i++)
             {
-                if (randomNames[i] != miListaJugador[i])
+                if (randomNames[i] != sharedList.miListaJugador[i])
                 {
                     sonIguales = false;
                     break;
@@ -72,39 +75,54 @@ public class colision : MonoBehaviour
         {
             print("CONGRATULATION");
         }
+
+        // Verificar si se presiona o suelta la tecla "E"
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            isEKeyPressed = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.E))
+        {
+            isEKeyPressed = false;
+        }
     }
 
     public GameObject ObjetoDesactivar;
     public GameObject PressE;
-
-    private void OnTriggerEnter(Collider other)
-    {
-        EntrarMensaje();
+    private void OnTriggerEnter(Collider other){ 
         PressE.SetActive(true);
-        string objeto = gameObject.name; // Obtener el nombre del objeto actual
-        if (transform.GetChild(0).gameObject.activeSelf)
-        {
+        EntrarMensaje();
 
-            if (miListaJugador.Contains(objeto))
-            {
-                print("Eliminando objeto: " + objeto);
-                miListaJugador.Remove(objeto);
-                transform.GetChild(0).gameObject.SetActive(false);
-                transform.GetChild(1).gameObject.SetActive(false);
-            }
-        }
-        else
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (Input.GetKey(KeyCode.E))
         {
-            if (!miListaJugador.Contains(objeto))
+            if (transform.GetChild(0).gameObject.activeSelf)
             {
-                transform.GetChild(0).gameObject.SetActive(true);
-                transform.GetChild(1).gameObject.SetActive(true);
-                print("Agregando objeto: " + objeto);
-                miListaJugador.Add(objeto);
+                string objeto = gameObject.name; // Obtener el nombre del objeto actual
+                if (sharedList.miListaJugador.Contains(objeto))
+                {
+                    print("Eliminando objeto: " + objeto);
+                    sharedList.miListaJugador.Remove(objeto);
+
+                    transform.GetChild(0).gameObject.SetActive(false);
+                    transform.GetChild(1).gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                string objeto = gameObject.name; // Obtener el nombre del objeto actual
+                if (!sharedList.miListaJugador.Contains(objeto))
+                {
+                    transform.GetChild(0).gameObject.SetActive(true);
+                    transform.GetChild(1).gameObject.SetActive(true);
+                    print("Agregando objeto: " + objeto);
+                    sharedList.miListaJugador.Add(objeto);
+                }
             }
         }
     }
-
     public void EntrarMensaje()
     {
         if (contador == 1)
