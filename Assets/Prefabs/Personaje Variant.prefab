@@ -1080,7 +1080,7 @@ GameObject:
   - component: {fileID: 4657392399704248011}
   m_Layer: 0
   m_Name: Personaje Variant
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1102,7 +1102,7 @@ Transform:
   - {fileID: 4662060896545935011}
   - {fileID: 4657392399934918845}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!95 &4751590339142920037
 Animator:
@@ -1117,7 +1117,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 8cc46e6214bd628438b1287bf3954c4f, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1192,7 +1192,7 @@ MonoBehaviour:
   hp: 80
   maxhp: 100
   def: 0
-  fireDelay: 1.5
+  fireDelay: 0.5
   dmg: 0
   VelocidadMovimiento: 2
   velocidaddemovimientox: 8
@@ -1413,6 +1413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4660413857377547585}
   - component: {fileID: 8075808942802176352}
+  - component: {fileID: 374596338}
   m_Layer: 0
   m_Name: root
   m_TagString: Untagged
@@ -1437,6 +1438,19 @@ Transform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8075808942802176352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4658505110834696595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d024c7536e6dafb4b995081f5e91bb96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movimientoPersonaje: {fileID: 4657392399704248011}
+--- !u!114 &374596338
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1867,7 +1881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4662071663265514291
 Transform:
   m_ObjectHideFlags: 0
