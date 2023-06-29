@@ -18,5 +18,5 @@ MonoBehaviour:
   hp: 80
   maxhp: 100
   def: 10
-  fireDelay: 2.3
+  fireDelay: 0.5
   dmg: 10

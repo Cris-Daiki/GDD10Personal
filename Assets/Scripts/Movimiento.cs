@@ -14,7 +14,7 @@ public class Movimiento : MonoBehaviour
     public int current_exp, lvl = 1;
     Animator anim;
     Rigidbody rb;
-    [HideInInspector] public bool puedoSaltar, EstoyAtacando, AvanzoSolo,enable_attack = true;
+    [HideInInspector] public bool puedoSaltar, EstoyAtacando = false, AvanzoSolo,enable_attack = true;
     public GameObject itemIconPrefab;
     public Transform inventoryContent;
     private List<GameObject> uiInventory;
@@ -37,7 +37,7 @@ public class Movimiento : MonoBehaviour
         Camara = GameObject.Find("Main Camera").GetComponent<Camera>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        puedoSaltar = false;
+        puedoSaltar = true;
         FillData();
         StartCoroutine(AttackDelay());
         inventory = new List<Item>();
@@ -49,12 +49,6 @@ public class Movimiento : MonoBehaviour
         x = Input.GetAxis("Horizontal");
         y = Input.GetAxis("Vertical");
 
-
-        if (Input.GetMouseButtonDown(1) && puedoSaltar && !EstoyAtacando)
-        {
-            anim.SetTrigger("Hechizo1 ");
-            EstoyAtacando = true;
-        }
         if (Input.GetKey(KeyCode.LeftAlt))
         {
             Cursor.lockState = CursorLockMode.None;
@@ -63,6 +57,7 @@ public class Movimiento : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
+
         transform.Translate(x * Time.deltaTime * VelocidadMovimiento, 0, y * Time.deltaTime * VelocidadMovimiento);
         anim.SetFloat("Velx", x);
         anim.SetFloat("Vely", y);
@@ -74,10 +69,10 @@ public class Movimiento : MonoBehaviour
                 {
                     anim.SetBool("Salte", true);
                     rb.AddForce(new Vector3(0, fuerzasalto, 0), ForceMode.Impulse);
+                    puedoSaltar = false;
                 }
                 anim.SetBool("TocarSuelo", true);
             }
-
         }
         else
         {
@@ -108,7 +103,7 @@ public class Movimiento : MonoBehaviour
         else hp = hp + item.alter_hp;
         maxhp = maxhp + item.alter_maxhp;
         def = def + item.alter_def;
-        fireDelay = fireDelay - (item.alter_fireDelay * 5.0f / 100);
+        // fireDelay = fireDelay - (item.alter_fireDelay * 5.0f / 100);
         dmg = dmg + item.alter_dmg;
         DebugStat_hp.SetText("HP: "+ _playerdata.hp + "/" + hp);
         DebugStat_maxhp.SetText("MAXHP: "+ _playerdata.maxhp + "/" + maxhp);
@@ -208,11 +203,20 @@ public class Movimiento : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, cameraDirection, out hit, maxDistance))
         {
+            // Verificar si la colisión es con el suelo (puedes ajustar esto según las capas o etiquetas de tus objetos)
+            if (hit.collider.CompareTag("Suelo") || hit.collider.CompareTag("Player"))
+            {
+                // Si se detecta una colisión con el suelo, ir al else
+                Camara.transform.position = transform.position + cameraDirection * maxDistance;
+            }
+            else
+            {
             // Si se detecta una colisión, ajustar la posición de la cámara
             float distanceToCollision = hit.distance - minDistance;
             distanceToCollision = Mathf.Clamp(distanceToCollision, 0f, maxDistance - minDistance);
             Vector3 adjustedPosition = transform.position + cameraDirection * (minDistance + distanceToCollision);
             Camara.transform.position = adjustedPosition;
+            }
         }
         else
         {
@@ -250,9 +254,12 @@ public class Movimiento : MonoBehaviour
     {
         while (true)
         {
-            if (Input.GetMouseButtonDown(1) || Input.GetMouseButton(1))
+            if ((Input.GetMouseButtonDown(1) || Input.GetMouseButton(1)) && puedoSaltar && !EstoyAtacando)
             {
-                SpawnBullet(true);
+                anim.SetTrigger("Hechizo1 ");
+                EstoyAtacando = true;
+                CancelInvoke("SpawnBulletT");
+                Invoke("SpawnBulletT", .5f);
                 yield return new WaitForSeconds(fireDelay);
             }
             else if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
@@ -263,6 +270,8 @@ public class Movimiento : MonoBehaviour
                 yield return null;
         }
     }
+    void SpawnBulletT() { SpawnBullet(true); }
+
     void SpawnBullet(bool aoe)
     {
         Vector3 S_position = bullet_spawner.position;
@@ -289,10 +298,12 @@ public class Movimiento : MonoBehaviour
         }
         */
         Spawned_bullet.GetComponent<Rigidbody>().AddForce(bullet_spawner.transform.forward * _bullet.bullet_velocity, ForceMode.Impulse);
+        // EstoyAtacando = false;   
     }
     public void EstoyCayendo(){
         anim.SetBool("TocarSuelo",false);
         anim.SetBool("Salte",false);
+        puedoSaltar = true;
     }
     public void DejeDeGolpear(){
         EstoyAtacando = false;

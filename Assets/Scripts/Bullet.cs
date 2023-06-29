@@ -52,7 +52,7 @@ public class Bullet : MonoBehaviour
             var explotion = Instantiate(AoE, transform.position, transform.rotation);
             explotion.transform.localScale = Vector3.one*3f;
             explotion.AddComponent<Explosion_delete>();
-            Instantiate(Explosion, transform.position, transform.rotation);
+            // Instantiate(Explosion, transform.position, transform.rotation);
 
             Collider[] colls = Physics.OverlapSphere(transform.position, exp_reach);
             foreach (Collider col in colls)
