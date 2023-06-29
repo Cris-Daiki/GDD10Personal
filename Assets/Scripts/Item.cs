@@ -5,6 +5,7 @@ using UnityEngine;
 public class Item : MonoBehaviour, IInteractable
 {
     public Sprite itemIcon;
+    public string name;
     public int amount;
     public float alter_hp;
     public float alter_maxhp;
