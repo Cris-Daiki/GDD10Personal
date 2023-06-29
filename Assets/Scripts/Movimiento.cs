@@ -17,6 +17,7 @@ public class Movimiento : MonoBehaviour
     [HideInInspector] public bool puedoSaltar, EstoyAtacando = false, AvanzoSolo,enable_attack = true;
     public GameObject itemIconPrefab;
     public Transform inventoryContent;
+    public Image barra_vida;
     private List<GameObject> uiInventory;
     private List<Item> inventory;
     TMP_Text DebugStat_hp, DebugStat_maxhp, DebugStat_def, DebugStat_fireDelay, DebugStat_dmg;
@@ -35,6 +36,7 @@ public class Movimiento : MonoBehaviour
         DebugStat_fireDelay = GameObject.Find("Statdebug (3)").GetComponent<TMP_Text>();
         DebugStat_dmg = GameObject.Find("Statdebug (4)").GetComponent<TMP_Text>();
         Camara = GameObject.Find("Main Camera").GetComponent<Camera>();
+        barra_vida = GameObject.Find("barra_vida").GetComponent<Image>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         puedoSaltar = true;
@@ -90,6 +92,7 @@ public class Movimiento : MonoBehaviour
         dmg = _playerdata.dmg;
         lvl = _playerdata.level;
         current_exp = _playerdata.experience;
+        barra_vida.fillAmount = _playerdata.hp / _playerdata.maxhp;
         DebugStat_hp.SetText("HP: " + _playerdata.hp + "/" + hp);
         DebugStat_maxhp.SetText("MAXHP: " + _playerdata.maxhp + "/" + maxhp);
         DebugStat_def.SetText("DEF: " + _playerdata.def + "/" + def);
@@ -168,6 +171,7 @@ public class Movimiento : MonoBehaviour
     public void ChangeHp(float dmg)
     {
         hp = hp - (dmg * (1 - (def / 100)));
+        barra_vida.fillAmount = hp / maxhp;
         DebugStat_hp.SetText("HP: " + _playerdata.hp + "/" + hp);
         if (hp <= 0)
         {
