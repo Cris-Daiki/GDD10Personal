@@ -104,6 +104,7 @@ public class Movimiento : MonoBehaviour
         if((hp + item.alter_hp) > maxhp) hp = maxhp;
         else hp = hp + item.alter_hp;
         maxhp = maxhp + item.alter_maxhp;
+        barra_vida.fillAmount = hp / maxhp;
         def = def + item.alter_def;
         // fireDelay = fireDelay - (item.alter_fireDelay * 5.0f / 100);
         dmg = dmg + item.alter_dmg;
@@ -207,7 +208,8 @@ public class Movimiento : MonoBehaviour
         if (Physics.Raycast(transform.position, cameraDirection, out hit, maxDistance))
         {
             // Verificar si la colisión es con el suelo (puedes ajustar esto según las capas o etiquetas de tus objetos)
-            if (hit.collider.CompareTag("Suelo") || hit.collider.CompareTag("Player"))
+            Debug.Log(hit.collider.gameObject.name);
+            if (hit.collider.CompareTag("Player"))
             {
                 // Si se detecta una colisión con el suelo, ir al else
                 Camara.transform.position = transform.position + cameraDirection * maxDistance;
