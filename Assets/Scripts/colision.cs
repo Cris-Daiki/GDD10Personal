@@ -16,6 +16,7 @@ public class colision : MonoBehaviour
     {
         contador = 1;
         ShuffleNames(); // Llamar al método ShuffleNames() en el Start() para barajar los nombres
+        
     }
 
     void ShuffleNames()
@@ -42,27 +43,66 @@ public class colision : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-
+   
     void Update()
     {
-        sonIguales1 = randomNames.SequenceEqual(miListaJugador);
-        if (sonIguales1)
+        foreach (string name in miListaJugador)
+        {
+            Debug.Log("ListaJUGADOR: " + name);
+        }
+
+        bool sonIguales = true;
+        if (randomNames.Count == miListaJugador.Count)
+        {
+            for (int i = 0; i < randomNames.Count; i++)
+            {
+                if (randomNames[i] != miListaJugador[i])
+                {
+                    sonIguales = false;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            sonIguales = false;
+        }
+
+        if (sonIguales)
         {
             print("CONGRATULATION");
         }
     }
 
-    internal string Objeto;
-
     public GameObject ObjetoDesactivar;
     public GameObject PressE;
+
     private void OnTriggerEnter(Collider other)
     {
         EntrarMensaje();
         PressE.SetActive(true);
-        Objeto = transform.name;
-        print(transform);
+        string objeto = gameObject.name; // Obtener el nombre del objeto actual
+        if (transform.GetChild(0).gameObject.activeSelf)
+        {
+
+            if (miListaJugador.Contains(objeto))
+            {
+                print("Eliminando objeto: " + objeto);
+                miListaJugador.Remove(objeto);
+                transform.GetChild(0).gameObject.SetActive(false);
+                transform.GetChild(1).gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            if (!miListaJugador.Contains(objeto))
+            {
+                transform.GetChild(0).gameObject.SetActive(true);
+                transform.GetChild(1).gameObject.SetActive(true);
+                print("Agregando objeto: " + objeto);
+                miListaJugador.Add(objeto);
+            }
+        }
     }
 
     public void EntrarMensaje()
@@ -74,30 +114,8 @@ public class colision : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (transform.GetChild(0).gameObject.activeInHierarchy)
-            {
-                transform.GetChild(0).gameObject.SetActive(false);
-                transform.GetChild(1).gameObject.SetActive(false);
-            }
-            else
-            {
-                transform.GetChild(0).gameObject.SetActive(true);
-                transform.GetChild(1).gameObject.SetActive(true);
-            }
-        }
-    }
-
     private void OnTriggerExit(Collider other)
     {
         PressE.SetActive(false);
-    }
-
-    public void controlerPuzzeCharacter()
-    {
-
     }
 }
