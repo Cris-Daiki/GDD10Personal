@@ -12,36 +12,21 @@ public class Movimiento : MonoBehaviour
     public float hp, maxhp,def ,fireDelay = 1.5f ,dmg,VelocidadMovimiento =5.0f,velocidaddemovimientox=8.0f,
     VelocidadRotacion =200.0f, ImpulsodDeGolpe = 10f, x, y, fuerzasalto = 8f;
     public int current_exp, lvl = 1;
-    private Animator anim;
-    public Rigidbody rb;
-    public bool puedoSaltar, EstoyAtacando, AvanzoSolo,enable_attack = true;
+    Animator anim;
+    Rigidbody rb;
+    [HideInInspector] public bool puedoSaltar, EstoyAtacando, AvanzoSolo,enable_attack = true;
     public GameObject itemIconPrefab;
     public Transform inventoryContent;
     private List<GameObject> uiInventory;
     private List<Item> inventory;
-    public TMP_Text DebugStat_hp, DebugStat_maxhp, DebugStat_def, DebugStat_fireDelay, DebugStat_dmg;
+    TMP_Text DebugStat_hp, DebugStat_maxhp, DebugStat_def, DebugStat_fireDelay, DebugStat_dmg;
     public float sensitivity = 2f;  // Sensibilidad del mouse para la rotación de la cámara
     private float minDistance = 1f;  // Distancia mínima de la cámara al jugador
     private float maxDistance = 4f; 
     private float rotationX = 0f;  // Rotación en el eje X (vertical)
-    private Vector2 mouseCenterPosition;
-    private Camera Camara;
-
-    void FillData()
-    {
-        hp =_playerdata.hp;
-        maxhp = _playerdata.maxhp;
-        def = _playerdata.def;
-        fireDelay = _playerdata.fireDelay;
-        dmg = _playerdata.dmg;
-        lvl = _playerdata.level;
-        current_exp = _playerdata.experience;
-        DebugStat_hp.SetText("HP: "+ _playerdata.hp + "/" + hp);
-        DebugStat_maxhp.SetText("MAXHP: "+ _playerdata.maxhp + "/" + maxhp);
-        DebugStat_def.SetText("DEF: "+ _playerdata.def + "/" + def);
-        DebugStat_fireDelay.SetText("FIREDELAY: "+ _playerdata.fireDelay + "/" + fireDelay);
-        DebugStat_dmg.SetText("DMG: "+ _playerdata.dmg + "/" + dmg);
-    }
+    Vector2 mouseCenterPosition;
+    Camera Camara;
+    
     void Start()
     {
         DebugStat_hp = GameObject.Find("Statdebug").GetComponent<TMP_Text>();
@@ -50,7 +35,8 @@ public class Movimiento : MonoBehaviour
         DebugStat_fireDelay = GameObject.Find("Statdebug (3)").GetComponent<TMP_Text>();
         DebugStat_dmg = GameObject.Find("Statdebug (4)").GetComponent<TMP_Text>();
         Camara = GameObject.Find("Main Camera").GetComponent<Camera>();
-        anim = GetComponent<Animator>();   
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
         puedoSaltar = false;
         FillData();
         StartCoroutine(AttackDelay());
@@ -58,7 +44,64 @@ public class Movimiento : MonoBehaviour
         uiInventory = new List<GameObject>();
         GetScreenCenter();
     }
+    void Update()
+    {
+        x = Input.GetAxis("Horizontal");
+        y = Input.GetAxis("Vertical");
 
+
+        if (Input.GetMouseButtonDown(1) && puedoSaltar && !EstoyAtacando)
+        {
+            anim.SetTrigger("Hechizo1 ");
+            EstoyAtacando = true;
+        }
+        if (Input.GetKey(KeyCode.LeftAlt))
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        transform.Translate(x * Time.deltaTime * velocidaddemovimientox, 0, y * Time.deltaTime * VelocidadMovimiento);
+        anim.SetFloat("Velx", x);
+        anim.SetFloat("Vely", y);
+        if (puedoSaltar)
+        {
+            if (!EstoyAtacando)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    anim.SetBool("Salte", true);
+                    rb.AddForce(new Vector3(0, fuerzasalto, 0), ForceMode.Impulse);
+                }
+                anim.SetBool("TocarSuelo", true);
+            }
+
+        }
+        else
+        {
+            EstoyCayendo();
+        }
+
+        UpdateCamera();
+    }
+    //-------------------Data related------------------------------
+    void FillData()
+    {
+        hp = _playerdata.hp;
+        maxhp = _playerdata.maxhp;
+        def = _playerdata.def;
+        fireDelay = _playerdata.fireDelay;
+        dmg = _playerdata.dmg;
+        lvl = _playerdata.level;
+        current_exp = _playerdata.experience;
+        DebugStat_hp.SetText("HP: " + _playerdata.hp + "/" + hp);
+        DebugStat_maxhp.SetText("MAXHP: " + _playerdata.maxhp + "/" + maxhp);
+        DebugStat_def.SetText("DEF: " + _playerdata.def + "/" + def);
+        DebugStat_fireDelay.SetText("FIREDELAY: " + _playerdata.fireDelay + "/" + fireDelay);
+        DebugStat_dmg.SetText("DMG: " + _playerdata.dmg + "/" + dmg);
+    }
     void Update_Stats(Item item)
     {
         if((hp + item.alter_hp) > maxhp) hp = maxhp;
@@ -82,7 +125,63 @@ public class Movimiento : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = true;
     }
-
+    public void AddToInventory(Item item)
+    {
+        inventory.Add(item);
+        GameObject go = Instantiate(itemIconPrefab, inventoryContent);
+        Image im = go.GetComponent<Image>();
+        im.sprite = item.itemIcon;
+        uiInventory.Add(go);
+        Update_Stats(item);
+    }
+    public void AddExp(int exp_val)
+    {
+        current_exp += exp_val;
+        if (lvl <= 15)
+        {
+            if (current_exp >= (2 * lvl + 7))
+            {
+                current_exp -= (2 * lvl + 7);
+                lvl++;
+            }
+        }
+        else if (lvl > 16 && lvl <= 30)
+        {
+            if (current_exp >= (5 * lvl - 38))
+            {
+                current_exp -= (5 * lvl - 38);
+                lvl++;
+            }
+        }
+        else if (lvl > 30)
+        {
+            if (current_exp >= (9 * lvl - 158))
+            {
+                current_exp -= (9 * lvl - 158);
+                lvl++;
+            }
+        }
+        else
+        {
+            Die();
+        }
+    }
+    public void Die()
+    {
+        _playerdata.lives -= 1;
+        Destroy(gameObject);
+    }
+    public void ChangeHp(float dmg)
+    {
+        hp = hp - (dmg *(1 - (def/100)));
+        DebugStat_hp.SetText("HP: " + _playerdata.hp + "/" + hp);
+        if (hp < 0)
+        {
+            StopCoroutine(AttackDelay());
+            Destroy(gameObject);
+        }
+    }
+    //-------------------Movement Related----------------------------
     void UpdateCamera() {
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
@@ -125,15 +224,6 @@ public class Movimiento : MonoBehaviour
         Cursor.SetCursor(null, mouseCenterPosition, CursorMode.Auto);
     }
 
-    public void AddToInventory(Item item) {
-        inventory.Add(item);
-        GameObject go = Instantiate(itemIconPrefab, inventoryContent);
-        Image im = go.GetComponent<Image>();
-        im.sprite = item.itemIcon;
-        uiInventory.Add(go);
-        Update_Stats(item);
-    }
-
     public void OnTriggerEnter(Collider other) {
         IInteractable interactable = other.GetComponent<IInteractable>();
         if (interactable != null) {
@@ -154,88 +244,7 @@ public class Movimiento : MonoBehaviour
     //     }
         
     // }
-    public void AddExp(int exp_val)
-    {
-        current_exp += exp_val;
-        if(lvl <= 15)
-        {
-            if(current_exp >= (2*lvl+7))
-            {
-                current_exp -= (2*lvl+7);
-                lvl++;
-            }
-        }
-        else if(lvl > 16 && lvl <= 30)
-        {
-            if (current_exp >= (5 * lvl -38))
-            {
-                current_exp -= (5 * lvl -38);
-                lvl++;
-            }
-        }
-        else if(lvl > 30)
-        {
-            if (current_exp >= (9 * lvl -158))
-            {
-                current_exp -= (9 * lvl - 158);
-                lvl++;
-            }
-        }
-        else
-        {
-            Die();
-        }
-    }
-    void Update()
-    {
-        x = Input.GetAxis("Horizontal");
-        y = Input.GetAxis("Vertical");
-        
-
-        if(Input.GetMouseButtonDown(1)&& puedoSaltar && !EstoyAtacando){
-            anim.SetTrigger("Hechizo1 ");
-            EstoyAtacando = true;
-        }
-        if (Input.GetKey(KeyCode.LeftAlt)){
-            Cursor.lockState = CursorLockMode.None;
-        }
-        else {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        transform.Translate(x * Time.deltaTime *velocidaddemovimientox, 0, y * Time.deltaTime *VelocidadMovimiento);
-        anim.SetFloat("Velx",x);
-        anim.SetFloat("Vely",y);
-        if(puedoSaltar){
-            if(!EstoyAtacando){
-                if(Input.GetKeyDown(KeyCode.Space)){
-                    anim.SetBool("Salte",true);
-                    rb.AddForce(new Vector3(0, fuerzasalto,0),ForceMode.Impulse);
-                }
-                anim.SetBool("TocarSuelo",true);
-            }
-            
-        }
-        else{
-            EstoyCayendo();
-        }
-
-        UpdateCamera();
-    }
-    public void Die()
-    {
-        _playerdata.lives -= 1;
-        Destroy(gameObject);
-    }
-    public void ChangeHp(float dmg)
-    {
-        hp = hp - (dmg *(1 - (def/100)));
-        DebugStat_hp.SetText("HP: "+ _playerdata.hp + "/" + hp);
-        if(hp < 0)
-        {
-            StopCoroutine(AttackDelay());
-            Destroy(gameObject);
-        }
-    }
+    
     IEnumerator AttackDelay()
     {
         while (true)
