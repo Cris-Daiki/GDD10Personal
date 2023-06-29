@@ -65,7 +65,7 @@ public class Movimiento : MonoBehaviour
         else hp = hp + item.alter_hp;
         maxhp = maxhp + item.alter_maxhp;
         def = def + item.alter_def;
-        fireDelay = fireDelay - (item.alter_fireDelay * 5.0f / 100);
+        fireDelay = fireDelay - (-item.alter_fireDelay * 5.0f / 100);
         dmg = dmg + item.alter_dmg;
         DebugStat_hp.SetText("HP: "+ _playerdata.hp + "/" + hp);
         DebugStat_maxhp.SetText("MAXHP: "+ _playerdata.maxhp + "/" + maxhp);
@@ -228,7 +228,7 @@ public class Movimiento : MonoBehaviour
     }
     public void ChangeHp(float dmg)
     {
-        hp = hp - (dmg - (dmg * (def/100.0f)));
+        hp = hp - (dmg *(1 - (def/100)));
         DebugStat_hp.SetText("HP: "+ _playerdata.hp + "/" + hp);
         if(hp < 0)
         {
