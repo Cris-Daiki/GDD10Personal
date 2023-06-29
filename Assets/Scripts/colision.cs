@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
+
 
 public class colision : MonoBehaviour
 {
@@ -25,7 +27,7 @@ public class colision : MonoBehaviour
 
     void ShuffleNames()
     {
-        string[] names = { "Torch (9)", "Torch (7)", "Torch (6)", "Torch (1)" };
+        string[] names = { "Torch", "Torch (1)", "Torch (2)" };
         randomNames = new List<string>(names);
 
         // Barajar los nombres en randomNames de forma aleatoria
@@ -43,7 +45,7 @@ public class colision : MonoBehaviour
         // Imprimir los nombres en orden aleatorio
         foreach (string name in randomNames)
         {
-            Debug.Log(name);
+            Debug.Log("ESTA ES LA LISTA: "+ name);
         }
     }
 
@@ -74,6 +76,8 @@ public class colision : MonoBehaviour
         if (sonIguales)
         {
             print("CONGRATULATION");
+            SceneManager.LoadScene("nivel 2");
+
         }
 
         // Verificar si se presiona o suelta la tecla "E"
