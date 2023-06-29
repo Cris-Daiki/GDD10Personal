@@ -169,7 +169,7 @@ public class Movimiento : MonoBehaviour
     {
         hp = hp - (dmg * (1 - (def / 100)));
         DebugStat_hp.SetText("HP: " + _playerdata.hp + "/" + hp);
-        if (hp < 0)
+        if (hp <= 0)
         {
             StopCoroutine(AttackDelay());
             Destroy(gameObject);
