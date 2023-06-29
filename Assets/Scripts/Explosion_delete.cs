@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Explosion_delete : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    float delay = 0.8f;
+    void Awake()
     {
-        Invoke("Delete",1.5f);
+        if (!GetComponent<ParticleSystem>())
+        {
+            delay = 0.4f;
+        }
+        Invoke("Delete",delay);
     }
     void Delete()
     {

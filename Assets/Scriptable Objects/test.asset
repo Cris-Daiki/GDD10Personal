@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: test
   m_EditorClassIdentifier: 
   lives: -30
+  level: 0
+  experience: 0
   hp: 80
   maxhp: 100
   def: 10
-  fireDelay: 5
+  fireDelay: 2.3
   dmg: 10

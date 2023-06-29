@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3636874573041305643
 MeshFilter:
@@ -148,3 +148,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet_properties: {fileID: 11400000, guid: 4f129fc7726dcd743a87f21a87dba05c, type: 2}
   Explosion: {fileID: 4042191864499860745, guid: bc1e44410a87dcc4aa3b09338d9c83cf, type: 3}
+  Single: {fileID: 2944396702758532163, guid: e190bf97c041e58448af6b043116cba0, type: 3}
+  AoE: {fileID: 358637981425055526, guid: 8eb503696b886e04faff8fc0f480d473, type: 3}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -12,6 +13,7 @@ public class Bullet : MonoBehaviour
     Proyectile.BulletEffect[] b_effects;
     Vector3 initial_pos;
     Movimiento player;
+    [SerializeField] GameObject Single, AoE;
 
     private void Start()
     {
@@ -33,12 +35,19 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter(Collision hit)
     {
         print("Object hit = " + hit.gameObject);
+
         if (hit.transform.GetComponent<MovimientoEnemigo>() != null)
         {
+            var singlepart = Instantiate(Single, transform.position, transform.rotation);
+            singlepart.AddComponent<Explosion_delete>();
             hit.transform.GetComponent<MovimientoEnemigo>().Change_HP(b_dmg);
+
         }
         if (Is_Expl)
         {
+            var explotion = Instantiate(AoE, transform.position, transform.rotation);
+            explotion.transform.localScale = Vector3.one*3f;
+            explotion.AddComponent<Explosion_delete>();
             Instantiate(Explosion, transform.position, transform.rotation);
 
             Collider[] colls = Physics.OverlapSphere(transform.position, exp_reach);
