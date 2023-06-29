@@ -95,7 +95,7 @@ public class MovimientoEnemigo : MonoBehaviour
     public void Change_HP(float dmg)
     {
         hp -= dmg;
-        if (hp < 0)
+        if (hp <= 0)
         {
             StopCoroutine(AttackDelay());
             target.GetComponent<Movimiento>().AddExp(exp);
