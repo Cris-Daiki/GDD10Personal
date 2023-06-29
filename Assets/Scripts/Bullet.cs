@@ -5,7 +5,10 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] Proyectile bullet_properties;
-    float b_dmg, b_vel, b_reach;
+    [SerializeField] GameObject Explosion;
+    float b_dmg, b_vel, b_reach, exp_reach = 5f,
+        closedmg=15f,middmg=10f,fardmg = 5f;
+    bool Is_Expl = true;
     Proyectile.BulletEffect[] b_effects;
     Vector3 initial_pos;
     Movimiento player;
@@ -33,6 +36,30 @@ public class Bullet : MonoBehaviour
         if (hit.transform.GetComponent<MovimientoEnemigo>() != null)
         {
             hit.transform.GetComponent<MovimientoEnemigo>().Change_HP(b_dmg);
+        }
+        if (Is_Expl)
+        {
+            Instantiate(Explosion, transform.position, transform.rotation);
+
+            Collider[] colls = Physics.OverlapSphere(transform.position, exp_reach);
+            foreach (Collider col in colls)
+            {
+                if (col.CompareTag("Enemy"))
+                {
+                    var distance = Vector3.Distance(col.transform.position, transform.position);
+                    float damage = fardmg;
+                    if (distance <= closedmg)
+                    {
+                        damage = closedmg;
+                    }
+                    else
+                    if (distance <= middmg)
+                    {
+                        damage = middmg;
+                    }
+                    transform.GetComponent<MovimientoEnemigo>().Change_HP(damage);
+                }
+            }
         }
         Destroy(gameObject);
     }

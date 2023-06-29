@@ -24,7 +24,7 @@ public class MovimientoEnemigo : MonoBehaviour
     void Start()
     {
         ani = GetComponent<Animator>();  
-        target = GameObject.Find("Personaje");
+        target = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(AttackDelay());
         VelocidadMovimiento = 5f;
     }
