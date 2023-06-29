@@ -9,13 +9,13 @@ public class Bullet : MonoBehaviour
     [SerializeField] GameObject Explosion;
     float b_dmg, b_vel, b_reach, exp_reach = 5f,
         closedmg=15f,middmg=10f,fardmg = 5f;
-    bool Is_Expl = true;
+    bool Is_Expl = false;
     Proyectile.BulletEffect[] b_effects;
     Vector3 initial_pos;
     Movimiento player;
     [SerializeField] GameObject Single, AoE;
 
-    private void Start()
+    void Awake()
     {
         //b_dmg = bullet_properties.bullet_dmg;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Movimiento>();
@@ -24,6 +24,10 @@ public class Bullet : MonoBehaviour
         b_effects = bullet_properties.bullet_effects;
         b_reach = bullet_properties.bullet_reach;
         initial_pos = transform.position;
+    }
+    public void SetExplosion(bool input)
+    {
+        Is_Expl = input;
     }
     private void Update()
     {

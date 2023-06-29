@@ -12,10 +12,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wolf Variant
       objectReference: {fileID: 0}
-    - target: {fileID: 175852, guid: f8243bb353e5cb74481bb26fe62fd298, type: 3}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
     - target: {fileID: 407410, guid: f8243bb353e5cb74481bb26fe62fd298, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0.00000028050144
@@ -523,10 +519,7 @@ MonoBehaviour:
   angulo: {x: 0, y: 0, z: 0, w: 0}
   hp: 10
   attack: 3
-  exp: 0
-  VelocidadMovimiento: 0
-  playerInSightRange: 0
-  timeBetweenAttacks: 0
+  target: {fileID: 0}
 --- !u!136 &7131458298474884772
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -63,6 +63,7 @@ public class MovimientoEnemigo : MonoBehaviour
             if(enable_attack) {
                 target.transform.GetComponent<Movimiento>().ChangeHp(attack);
                 enable_attack = false;
+                CancelInvoke("ResetAttack");
                 Invoke("ResetAttack", timeBetweenAttacks);
             }
         }

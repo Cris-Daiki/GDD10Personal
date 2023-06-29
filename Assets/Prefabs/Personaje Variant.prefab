@@ -367,21 +367,16 @@ MonoBehaviour:
   fireDelay: 1.5
   dmg: 0
   VelocidadMovimiento: 2
-  velocidaddemovimientox: 8
   VelocidadRotacion: 100
   ImpulsodDeGolpe: 10
   x: 0
   y: 0
   fuerzasalto: 5
-  current_exp: 0
-  lvl: 1
+  rb: {fileID: 59442661}
   puedoSaltar: 0
   EstoyAtacando: 0
   AvanzoSolo: 0
   enable_attack: 1
-  itemIconPrefab: {fileID: 0}
-  inventoryContent: {fileID: 0}
-  sensitivity: 2
 --- !u!4 &2274372574445975710 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400120, guid: 5917c0e93d180a842b61d1ebc62a195c, type: 3}
