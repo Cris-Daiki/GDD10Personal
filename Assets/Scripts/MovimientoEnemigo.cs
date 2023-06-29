@@ -26,7 +26,7 @@ public class MovimientoEnemigo : MonoBehaviour
         ani = GetComponent<Animator>();  
         target = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(AttackDelay());
-        VelocidadMovimiento = 5f;
+        VelocidadMovimiento = 3.5f;
     }
 
     // Update is called once per frame
@@ -55,17 +55,10 @@ public class MovimientoEnemigo : MonoBehaviour
                     ani.SetBool("walk",true);
                     break;
             }
-
         }
         else if(Vector3.Distance(transform.position, target.transform.position) <= 2f) {
             ani.SetBool("run", false);
             ani.SetBool("walk",false);
-            if(enable_attack) {
-                target.transform.GetComponent<Movimiento>().ChangeHp(attack);
-                enable_attack = false;
-                CancelInvoke("ResetAttack");
-                Invoke("ResetAttack", timeBetweenAttacks);
-            }
         }
         else{
             var lookPos = target.transform.position - transform.position;
@@ -106,11 +99,19 @@ public class MovimientoEnemigo : MonoBehaviour
     {
         while(true)
         {
-            if (!enable_attack)
-            {
-                Debug.Log("hola");
-                yield return new WaitForSeconds(1.5f);
-                enable_attack = true;
+            if(enable_attack) {
+                if(Vector3.Distance(transform.position, target.transform.position) <= 2f) {
+                    ani.SetBool("run", false);
+                    ani.SetBool("walk",false);
+                    ani.SetBool("attack2", true);
+                    target.transform.GetComponent<Movimiento>().ChangeHp(attack);
+                    enable_attack = false;
+                    CancelInvoke("ResetAttack");
+                    Invoke("ResetAttack", timeBetweenAttacks);
+                    yield return new WaitForSeconds(1.5f);
+                } else {
+                    ani.SetBool("attack2", false);
+                }
             }
             yield return null;
         }
