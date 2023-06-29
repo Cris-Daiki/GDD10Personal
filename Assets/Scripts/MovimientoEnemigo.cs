@@ -24,7 +24,7 @@ public class MovimientoEnemigo : MonoBehaviour
     void Start()
     {
         ani = GetComponent<Animator>();  
-        target = GameObject.Find("Personaje");
+        target = GameObject.Find("Personaje Variant");
         StartCoroutine(AttackDelay());
         VelocidadMovimiento = 5f;
     }
@@ -63,6 +63,7 @@ public class MovimientoEnemigo : MonoBehaviour
             if(enable_attack) {
                 target.transform.GetComponent<Movimiento>().ChangeHp(attack);
                 enable_attack = false;
+                CancelInvoke("ResetAttack");
                 Invoke("ResetAttack", timeBetweenAttacks);
             }
         }
