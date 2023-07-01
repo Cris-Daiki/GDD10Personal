@@ -77,7 +77,6 @@ public class colision : MonoBehaviour
         {
             print("CONGRATULATION");
             SceneManager.LoadScene("nivel 2");
-
         }
 
         // Verificar si se presiona o suelta la tecla "E"
