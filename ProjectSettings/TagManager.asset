@@ -10,6 +10,7 @@ TagManager:
   - Enemy Parent
   - Suelo
   - Pared
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Interactuable
   - Water
   - UI
-  - 
+  - EnemyBoss
   - 
   - 
   - 
