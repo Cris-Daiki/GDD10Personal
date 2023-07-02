@@ -6,7 +6,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] Proyectile bullet_properties;
-    [SerializeField] GameObject Explosion;
+    //[SerializeField] GameObject Explosion;
     float b_dmg, b_vel, b_reach, exp_reach = 5f,
         closedmg=15f,middmg=10f,fardmg = 5f;
     bool Is_Expl = false;
@@ -55,6 +55,7 @@ public class Bullet : MonoBehaviour
             // Instantiate(Explosion, transform.position, transform.rotation);
 
             Collider[] colls = Physics.OverlapSphere(transform.position, exp_reach);
+            Debug.Log(colls);
             foreach (Collider col in colls)
             {
                 if (col.CompareTag("Enemy"))
@@ -65,12 +66,11 @@ public class Bullet : MonoBehaviour
                     {
                         damage = closedmg;
                     }
-                    else
-                    if (distance <= middmg)
+                    else if (distance <= middmg)
                     {
                         damage = middmg;
                     }
-                    transform.GetComponent<MovimientoEnemigo>().Change_HP(damage);
+                    col.transform.GetComponent<MovimientoEnemigo>().Change_HP(damage);
                 }
             }
         }
