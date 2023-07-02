@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class Play_Exit : MonoBehaviour
 {
     public void Inicio(){
-        SceneManager.LoadScene("Juego");
+        SceneManager.LoadScene("level1 km edittion");
     }
     public void Exit(){
         Application.Quit();

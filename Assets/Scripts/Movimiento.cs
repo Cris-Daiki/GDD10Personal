@@ -99,7 +99,7 @@ public class Movimiento : MonoBehaviour
         DebugStat_fireDelay.SetText("FIREDELAY: " + _playerdata.fireDelay + "/" + fireDelay);
         DebugStat_dmg.SetText("DMG: " + _playerdata.dmg + "/" + dmg);
     }
-    void Update_Stats(Item item)
+    public void Update_Stats(Item item)
     {
         if((hp + item.alter_hp) > maxhp) hp = maxhp;
         else hp = hp + item.alter_hp;
