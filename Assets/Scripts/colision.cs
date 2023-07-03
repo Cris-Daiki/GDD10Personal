@@ -94,11 +94,14 @@ public class colision : MonoBehaviour
         {
             print("CONGRATULATION");
             // SceneManager.LoadScene("nivel 2");
+            Torch1.gameObject.SetActive(false);
+            Torch2.gameObject.SetActive(false);
+            Torch3.gameObject.SetActive(false);
+            PressE.SetActive(false);
             Elevator.isActive = true;
         }
-        else if (randomNames.Count == sharedList.miListaJugador.Count)
+        if (randomNames.Count == sharedList.miListaJugador.Count && !sonIguales)
         {
-            print("mal");
             Torch1.transform.GetChild(0).gameObject.SetActive(false);
             Torch1.transform.GetChild(1).gameObject.SetActive(false);
             Torch2.transform.GetChild(0).gameObject.SetActive(false);
