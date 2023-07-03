@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f44c0de2efeac4f80c1ecc5bb6ade3, type: 3}
   m_Name: test bullet
   m_EditorClassIdentifier: 
-  bullet_prefab: {fileID: 289741953263603500, guid: a820080c3f630dd47b4719cb615e0fba, type: 3}
+  bullet_prefab: {fileID: 8734714109032140494, guid: 808106ed3b70eaa4f96325a8ea6b797d, type: 3}
   bullet_velocity: 15
   bullet_reach: 20
   bullet_effects: 

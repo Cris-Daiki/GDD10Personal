@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -13,12 +14,18 @@ public class Bullet : MonoBehaviour
     Proyectile.BulletEffect[] b_effects;
     Vector3 initial_pos;
     Movimiento player;
+    CapsuleCollider playercol;
+    SphereCollider bul_col;
     [SerializeField] GameObject Single, AoE;
 
     void Awake()
     {
         //b_dmg = bullet_properties.bullet_dmg;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Movimiento>();
+        playercol = GameObject.FindGameObjectWithTag("Player").GetComponent<CapsuleCollider>();
+        bul_col = gameObject.GetComponent<SphereCollider>();
+        Physics.IgnoreCollision(playercol, bul_col, true);
+        Physics.IgnoreLayerCollision(7, 7);
         b_dmg = player.dmg;
         b_vel = bullet_properties.bullet_velocity;
         b_effects = bullet_properties.bullet_effects;
@@ -42,8 +49,8 @@ public class Bullet : MonoBehaviour
 
         if (hit.transform.GetComponent<MovimientoEnemigo>() != null)
         {
-            var singlepart = Instantiate(Single, transform.position, transform.rotation);
-            singlepart.AddComponent<Explosion_delete>();
+            //var singlepart = Instantiate(Single, transform.position, transform.rotation);
+            //singlepart.AddComponent<Explosion_delete>();
             hit.transform.GetComponent<MovimientoEnemigo>().Change_HP(b_dmg);
 
         }
