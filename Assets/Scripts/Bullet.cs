@@ -45,7 +45,7 @@ public class Bullet : MonoBehaviour
     }
     private void OnCollisionEnter(Collision hit)
     {
-        print("Object hit = " + hit.gameObject);
+        // print("Object hit = " + hit.gameObject);
 
         if (hit.transform.GetComponent<MovimientoEnemigo>() != null)
         {
@@ -62,7 +62,7 @@ public class Bullet : MonoBehaviour
             // Instantiate(Explosion, transform.position, transform.rotation);
 
             Collider[] colls = Physics.OverlapSphere(transform.position, exp_reach);
-            Debug.Log(colls);
+            // Debug.Log(colls);
             foreach (Collider col in colls)
             {
                 if (col.CompareTag("Enemy"))
