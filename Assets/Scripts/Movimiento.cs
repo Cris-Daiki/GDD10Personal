@@ -114,6 +114,22 @@ public class Movimiento : MonoBehaviour
         DebugStat_fireDelay.SetText("FIREDELAY: "+ _playerdata.fireDelay + "/" + fireDelay);
         DebugStat_dmg.SetText("DMG: "+ _playerdata.dmg + "/" + dmg);
     }
+    public void Update_StatsTostore(Item item)
+    {
+        
+        if((hp + item.alter_hp) > maxhp) hp = maxhp;
+        else hp = hp + item.alter_hp;
+        maxhp = maxhp + item.alter_maxhp;
+        barra_vida.fillAmount = hp / maxhp;
+        def = def + item.alter_def;
+        // fireDelay = fireDelay - (item.alter_fireDelay * 5.0f / 100);
+        dmg = dmg + item.alter_dmg;
+        DebugStat_hp.SetText("HP: "+ _playerdata.hp + "/" + hp);
+        DebugStat_maxhp.SetText("MAXHP: "+ _playerdata.maxhp + "/" + maxhp);
+        DebugStat_def.SetText("DEF: "+ _playerdata.def + "/" + def);
+        DebugStat_fireDelay.SetText("FIREDELAY: "+ _playerdata.fireDelay + "/" + fireDelay);
+        DebugStat_dmg.SetText("DMG: "+ _playerdata.dmg + "/" + dmg);
+    }
 
     void GetScreenCenter() {
         // Obtener la posición del centro de la pantalla
@@ -131,6 +147,18 @@ public class Movimiento : MonoBehaviour
         im.sprite = item.itemIcon;
         uiInventory.Add(go);
         Update_Stats(item);
+    }
+    public void AddToInventoryToStore(Item item)
+    {
+
+        
+        inventory.Add(item);
+        print(item);
+        GameObject go = Instantiate(itemIconPrefab, inventoryContent);
+        Image im = go.GetComponent<Image>();
+        im.sprite = item.itemIcon;
+        uiInventory.Add(go);
+        Update_StatsTostore(item);
     }
     public void AddExp(int exp_val)
     {
