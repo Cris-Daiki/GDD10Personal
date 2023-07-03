@@ -59,6 +59,7 @@ public class InteraccionNPC : MonoBehaviour
             StopAllCoroutines(); // Detener la corutina en caso de que esté en progreso
             Hablando.SetActive(false);
             ScrollVew.SetActive(true);
+            Dialogo.SetActive(false);
             Texto.text = string.Empty;
         }
     }
