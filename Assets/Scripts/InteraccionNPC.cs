@@ -10,6 +10,8 @@ public class InteraccionNPC : MonoBehaviour
 {
     public GameObject ScrollVew;
     public GameObject Hablando;
+    public GameObject PanelTienda;
+    public GameObject Dialogo;
     string frase1 = "Hola, con que puedo ayudarte hoy ?";
     public TMP_Text Texto;
     void Start()
@@ -28,6 +30,7 @@ public class InteraccionNPC : MonoBehaviour
         {
             ScrollVew.SetActive(false);
             Hablando.SetActive(true);
+            Dialogo.SetActive(true);
             StartCoroutine(Reloj());
         }
     }
@@ -36,9 +39,16 @@ public class InteraccionNPC : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            if (Input.GetKey(KeyCode.E)){
+                Dialogo.SetActive(false);
+                Hablando.SetActive(false);
+                PanelTienda.SetActive(true);
+            }
         }
     }
-
+    public void BotonExit(){
+        PanelTienda.SetActive(false);
+    }
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
