@@ -116,7 +116,6 @@ public class Movimiento : MonoBehaviour
     }
     public void Update_StatsTostore(Item item)
     {
-        
         if((hp + item.alter_hp) > maxhp) hp = maxhp;
         else hp = hp + item.alter_hp;
         maxhp = maxhp + item.alter_maxhp;
@@ -150,8 +149,6 @@ public class Movimiento : MonoBehaviour
     }
     public void AddToInventoryToStore(Item item)
     {
-
-        
         inventory.Add(item);
         print(item);
         GameObject go = Instantiate(itemIconPrefab, inventoryContent);
@@ -236,7 +233,7 @@ public class Movimiento : MonoBehaviour
         if (Physics.Raycast(transform.position, cameraDirection, out hit, maxDistance))
         {
             // Verificar si la colisión es con el suelo (puedes ajustar esto según las capas o etiquetas de tus objetos)
-            Debug.Log(hit.collider.gameObject.name);
+            // Debug.Log(hit.collider.gameObject.name);
             if (hit.collider.CompareTag("Player"))
             {
                 // Si se detecta una colisión con el suelo, ir al else
