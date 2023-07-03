@@ -28,7 +28,7 @@ public class InteraccionNPC : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            ScrollVew.SetActive(false);
+            //ScrollVew.SetActive(false);
             Hablando.SetActive(true);
             Dialogo.SetActive(true);
             StartCoroutine(Reloj());
