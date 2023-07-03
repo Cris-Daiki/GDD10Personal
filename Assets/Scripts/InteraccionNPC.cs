@@ -12,7 +12,7 @@ public class InteraccionNPC : MonoBehaviour
     public GameObject Hablando;
     public GameObject PanelTienda;
     public GameObject Dialogo;
-    string frase1 = "Hola, con que puedo ayudarte hoy ?";
+    internal string frase1 = "Hola, con que puedo ayudarte hoy ?";
     public TMP_Text Texto;
     void Start()
     {
@@ -40,9 +40,12 @@ public class InteraccionNPC : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             if (Input.GetKey(KeyCode.E)){
-                Dialogo.SetActive(false);
-                Hablando.SetActive(false);
-                PanelTienda.SetActive(true);
+                if(frase1 == "Hola, con que puedo ayudarte hoy ?"){
+                    Dialogo.SetActive(false);
+                    Hablando.SetActive(false);
+                    PanelTienda.SetActive(true);
+                }
+                
             }
         }
     }
@@ -65,7 +68,7 @@ public class InteraccionNPC : MonoBehaviour
         foreach (char caracter in frase1)
         {
             Texto.text = Texto.text + caracter;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 }

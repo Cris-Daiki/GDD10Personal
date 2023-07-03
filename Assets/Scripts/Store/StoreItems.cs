@@ -13,8 +13,10 @@ public class StoreItems : MonoBehaviour
     public int itemSellPrice;
     public int ItembuyPrice;
     TextMeshProUGUI buyPriceText;
+    public GameObject InteraccionMercader;
+    InteraccionNPC InteraccionNueva;
     private void Start(){
-
+        InteraccionNueva =InteraccionMercader.GetComponent<InteraccionNPC>();
         itemName = itemToADD.name;
         a = GameObject.FindGameObjectWithTag("Player").GetComponent<Movimiento>();
         buyPriceText = gameObject.GetComponentInChildren<TextMeshProUGUI>();
@@ -24,11 +26,20 @@ public class StoreItems : MonoBehaviour
     {
         a.AddToInventoryToStore(itemToADD);
 
+
     }
+    public int contadorStore=0;
+
     public void BuyItem(){
         //if(ItembuyPrice <= BankAccount.instance.bank){
             // BankAccount.instance.bank -=ItembuyPrice;
-             AddToInventory1();
+        contadorStore +=1;
+        if(contadorStore <=1){
+            AddToInventory1();
+        }else{
+            InteraccionNueva.frase1 = "Lo siento Ya compraste en esta tienda";
+        }
+
         //}
     }
 }
