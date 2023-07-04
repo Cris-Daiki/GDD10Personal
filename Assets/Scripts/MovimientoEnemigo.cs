@@ -19,6 +19,7 @@ public class MovimientoEnemigo : MonoBehaviour
     public float playerInSightRange;
 
     public float timeBetweenAttacks;
+    public float distanciaAtaque;
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +57,7 @@ public class MovimientoEnemigo : MonoBehaviour
                     break;
             }
         }
-        else if(Vector3.Distance(transform.position, target.transform.position) <= 2f) {
+        else if(Vector3.Distance(transform.position, target.transform.position) <= distanciaAtaque) {
             ani.SetBool("run", false);
             ani.SetBool("walk",false);
         }
@@ -100,7 +101,7 @@ public class MovimientoEnemigo : MonoBehaviour
         while(true)
         {
             if(enable_attack) {
-                if(Vector3.Distance(transform.position, target.transform.position) <= 2f) {
+                if(Vector3.Distance(transform.position, target.transform.position) <= distanciaAtaque) {
                     ani.SetBool("run", false);
                     ani.SetBool("walk",false);
                     ani.SetBool("attack2", true);

@@ -14,10 +14,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/level1 km edittion.unity
     guid: 93062ef13f82ae649963c769abb42288
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/nivel 2.unity
-    guid: a7ed067f3d417014a9ed15f2d1fd9b60
+    guid: 484956d4217788e4ea2f0dbd4b24c187
   - enabled: 1
     path: Assets/Scenes/nivel 3.unity
     guid: 9c5a641bedd02c74db3314c8c41b1ea5
+  - enabled: 1
+    path: Assets/Scenes/MundoAbierto.unity
+    guid: 5d5365d3955aa0147be55d9c53fc275b
   m_configObjects: {}

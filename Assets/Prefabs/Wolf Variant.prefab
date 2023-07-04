@@ -527,6 +527,7 @@ MonoBehaviour:
   VelocidadMovimiento: 0
   playerInSightRange: 8
   timeBetweenAttacks: 0
+  distanciaAtaque: 2
 --- !u!136 &7131458298474884772
 CapsuleCollider:
   m_ObjectHideFlags: 0

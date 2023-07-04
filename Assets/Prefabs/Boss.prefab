@@ -551,9 +551,10 @@ MonoBehaviour:
   hp: 200
   attack: 15
   exp: 0
-  VelocidadMovimiento: 1.5
+  VelocidadMovimiento: 4
   playerInSightRange: 20
   timeBetweenAttacks: 2
+  distanciaAtaque: 5
 --- !u!136 &7131458298158985272
 CapsuleCollider:
   m_ObjectHideFlags: 0
