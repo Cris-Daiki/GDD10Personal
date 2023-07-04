@@ -39,12 +39,14 @@ public class StoreItems : MonoBehaviour
     public void BuyItem(){
         //if(ItembuyPrice <= BankAccount.instance.bank){
             // BankAccount.instance.bank -=ItembuyPrice;
+        print(transform);
         contadorStore +=1;
         if(contadorStore ==1){
             AddToInventory1();
             contadorStore +=1;
             PanelTienda.SetActive(false);
             contadorRespaldo= false;
+            InteraccionNueva.frase1 = "Lo siento Ya compraste en esta tienda";
 
         }else{
             InteraccionNueva.frase1 = "Lo siento Ya compraste en esta tienda";
