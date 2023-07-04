@@ -188,10 +188,11 @@ public class Movimiento : MonoBehaviour
             Die();
         }
     }
+    Entity_Controller controller;
     public void Die()
     {
         _playerdata.lives -= 1;
-        SceneManager.LoadScene("level1 km edittion");
+        controller.Set_playernull();
     }
     public void ChangeHp(float dmg)
     {

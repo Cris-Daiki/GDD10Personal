@@ -14,8 +14,6 @@ public class Entity_Controller : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI m_teleport;
     GameObject player;
     bool tp_started = false;
-    //public RoomEnemy RoomInfo;
-    //GameObject[] Spawns;
 
     private void Start()
     {
@@ -30,10 +28,7 @@ public class Entity_Controller : MonoBehaviour
     {
         if(player == null)
         {
-            GameObject  dungeon_delete = GameObject.FindGameObjectWithTag("Dungeon");
-            Destroy(dungeon_delete);
-            Instantiate(Room_Prefab);
-            FindPlayer();
+            LevelSwitch(NextLvl - 1);
         }
         else
         {
@@ -59,32 +54,28 @@ public class Entity_Controller : MonoBehaviour
             }
         }
     }
+    public void Set_playernull()
+    {
+        player = null;
+    }
     void LevelSwitch(int level)
     {
         switch(level)
         {
+            case 1:
+                SceneManager.LoadScene("level1 km edittion");
+                break;
             case 2:
                 SceneManager.LoadScene("nivel 2");
                 break;
             case 3:
                 SceneManager.LoadScene("nivel 3");
                 break;
+            case 4:
+                SceneManager.LoadScene("MundoAbierto");
+                break;
         }
 
-    }
-    void SpawnEnemies()
-    {
-        /*
-        int n_spawns = Spawns.Length-1;
-        foreach(var x in RoomInfo.enemigos)
-        {
-            Vector3 pos = Spawns[Random.Range(0, n_spawns)].transform.position;
-            var temp2 = Instantiate(x);
-            //temp2.transform.parent = p_reference;
-            temp2.transform.position = pos;
-            
-        }
-        */
     }
     void FindPlayer()
     {
