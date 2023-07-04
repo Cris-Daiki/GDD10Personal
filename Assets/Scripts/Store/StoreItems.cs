@@ -28,11 +28,12 @@ public class StoreItems : MonoBehaviour
 
 
     }
-    public int contadorStore=0;
+    public static int contadorStore=0;
 
     public void BuyItem(){
         //if(ItembuyPrice <= BankAccount.instance.bank){
             // BankAccount.instance.bank -=ItembuyPrice;
+        print("GIAOSJDFOAISDJOAISJDOIASJD");
         contadorStore +=1;
         if(contadorStore <=1){
             AddToInventory1();
