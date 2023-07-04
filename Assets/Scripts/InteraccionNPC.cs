@@ -34,9 +34,10 @@ public class InteraccionNPC : MonoBehaviour
             StartCoroutine(Reloj());
         }
     }
-
+    public StoreItems VariableA;
     private void OnTriggerStay(Collider other)
     {
+        VariableA = FindObjectOfType<StoreItems>();
         if (other.CompareTag("Player"))
         {
             if (Input.GetKey(KeyCode.E)){
