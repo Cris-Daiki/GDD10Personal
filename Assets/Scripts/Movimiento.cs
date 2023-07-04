@@ -106,7 +106,6 @@ public class Movimiento : MonoBehaviour
         maxhp = maxhp + item.alter_maxhp;
         barra_vida.fillAmount = hp / maxhp;
         def = def + item.alter_def;
-        // fireDelay = fireDelay - (item.alter_fireDelay * 5.0f / 100);
         dmg = dmg + item.alter_dmg;
         DebugStat_hp.SetText("HP: "+ _playerdata.hp + "/" + hp);
         DebugStat_maxhp.SetText("MAXHP: "+ _playerdata.maxhp + "/" + maxhp);
@@ -121,7 +120,6 @@ public class Movimiento : MonoBehaviour
         maxhp = maxhp + item.alter_maxhp;
         barra_vida.fillAmount = hp / maxhp;
         def = def + item.alter_def;
-        // fireDelay = fireDelay - (item.alter_fireDelay * 5.0f / 100);
         dmg = dmg + item.alter_dmg;
         DebugStat_hp.SetText("HP: "+ _playerdata.hp + "/" + hp);
         DebugStat_maxhp.SetText("MAXHP: "+ _playerdata.maxhp + "/" + maxhp);
@@ -214,15 +212,13 @@ public class Movimiento : MonoBehaviour
 
         // Calcular la rotación vertical de la cámara
         rotationX -= -mouseX * sensitivity;
-        // rotationX = Mathf.Clamp(rotationX, -180f, 180f);  // Limitar la rotación vertical para evitar volteos
+        // Limitar la rotación vertical para evitar volteos
 
         // Crear una rotación Quaternion para la rotación vertical
         Quaternion verticalRotation = Quaternion.Euler(0f, rotationX, 0f);
 
         // Aplicar la rotación vertical a la cámara
         transform.localRotation = verticalRotation;
-
-        
 
         // Calcular la dirección de la cámara
         Vector3 cameraDirection = Camara.transform.position - transform.position;
@@ -233,7 +229,6 @@ public class Movimiento : MonoBehaviour
         if (Physics.Raycast(transform.position, cameraDirection, out hit, maxDistance))
         {
             // Verificar si la colisión es con el suelo (puedes ajustar esto según las capas o etiquetas de tus objetos)
-            // Debug.Log(hit.collider.gameObject.name);
             if (hit.collider.CompareTag("Player"))
             {
                 // Si se detecta una colisión con el suelo, ir al else
@@ -272,21 +267,6 @@ public class Movimiento : MonoBehaviour
             puedoSaltar = true;
         }
     }
-
-    // Update is called once per frame
-    // void FixedUpdate()
-
-    // {
-    //     if(!EstoyAtacando){
-    //         transform.Rotate(0,x*Time.deltaTime * VelocidadRotacion,0);
-    //         transform.Translate (0,0,y*Time.deltaTime *VelocidadMovimiento);
-    //     }
-    //     if(AvanzoSolo){
-    //         rb.velocity = transform.forward* ImpulsodDeGolpe;
-    //     }
-        
-    // }
-    
     
     IEnumerator AttackDelay()
     {
@@ -302,8 +282,9 @@ public class Movimiento : MonoBehaviour
             }
             else if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
             {
-                SpawnBullet(false);
-                yield return new WaitForSeconds(fireDelay-1);
+                CancelInvoke("SpawnBulletT");
+                Invoke("SpawnBulletT", .25f);
+                yield return new WaitForSeconds(0.25f);
             }
                 yield return null;
         }
@@ -320,23 +301,7 @@ public class Movimiento : MonoBehaviour
             Spawned_bullet.GetComponent<Bullet>().SetExplosion(true);
         }
         Physics.IgnoreCollision(Spawned_bullet.transform.GetComponent<SphereCollider>(),transform.GetComponent<CapsuleCollider>());
-        /*
-        RaycastHit hit;
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, Mathf.Infinity))
-        {
-            print("raycast hit");
-            Vector3 bulletDirection = hit.point - bullet_spawner.position;
-            Spawned_bullet.GetComponent<Rigidbody>().velocity = bulletDirection*_bullet.bullet_velocity;
-        }
-        else
-        {
-            print("raycast no hit");
-            Vector3 bulletDirection = (Camera.main.transform.position + Camera.main.transform.forward * 1000) - bullet_spawner.position;
-            Spawned_bullet.GetComponent<Rigidbody>().velocity = bulletDirection * _bullet.bullet_velocity;
-        }
-        */
         Spawned_bullet.GetComponent<Rigidbody>().AddForce(bullet_spawner.transform.forward * _bullet.bullet_velocity, ForceMode.Impulse);
-        // EstoyAtacando = false;   
     }
     public void EstoyCayendo(){
         anim.SetBool("TocarSuelo",false);
@@ -351,26 +316,4 @@ public class Movimiento : MonoBehaviour
     public void DejoDeAvanzar(){
         AvanzoSolo = false;
     }
-    
-    /*
-     private void Increase_EXP(int Exp_Gained)
-    {
-        var e = Exp_Gained + Current_Exp;
-        if (e >= 150)
-        {
-            Current_Exp = e - 1000;
-            Player_Lvl++;
-            Skills_Points += 2;
-            MaxHP += 10;
-            HitPoints = MaxHP;
-            Hp_bar.Update_healt();
-            HP_Counter.text = MaxHP.ToString();
-        }
-        else
-        {
-            Current_Exp += Exp_Gained;
-        }
-        
-    }
-     */
 }
