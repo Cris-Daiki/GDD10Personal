@@ -521,11 +521,11 @@ MonoBehaviour:
   grado: 0
   ani: {fileID: 2941835081994993546}
   angulo: {x: 0, y: 0, z: 0, w: 0}
-  hp: 30
-  attack: 3
+  hp: 60
+  attack: 13
   exp: 0
   VelocidadMovimiento: 0
-  playerInSightRange: 0
+  playerInSightRange: 8
   timeBetweenAttacks: 0
 --- !u!136 &7131458298474884772
 CapsuleCollider:

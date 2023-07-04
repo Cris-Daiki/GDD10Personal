@@ -1,3 +1,4 @@
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -190,7 +191,7 @@ public class Movimiento : MonoBehaviour
     public void Die()
     {
         _playerdata.lives -= 1;
-        Destroy(gameObject);
+        SceneManager.LoadScene("level1 km edittion");
     }
     public void ChangeHp(float dmg)
     {
@@ -200,7 +201,7 @@ public class Movimiento : MonoBehaviour
         if (hp <= 0)
         {
             StopCoroutine(AttackDelay());
-            Destroy(gameObject);
+            SceneManager.LoadScene("level1 km edittion");
         }
     }
     //-------------------Movement Related----------------------------
@@ -282,14 +283,15 @@ public class Movimiento : MonoBehaviour
             }
             else if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
             {
-                CancelInvoke("SpawnBulletT");
-                Invoke("SpawnBulletT", .25f);
+                CancelInvoke("SpawnBulletF");
+                Invoke("SpawnBulletF", .25f);
                 yield return new WaitForSeconds(0.25f);
             }
                 yield return null;
         }
     }
     void SpawnBulletT() { SpawnBullet(true); }
+    void SpawnBulletF() { SpawnBullet(false); }
 
     void SpawnBullet(bool aoe)
     {
